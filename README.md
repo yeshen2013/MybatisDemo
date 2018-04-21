@@ -1,1 +1,1 @@
-# user Mybatis connect mysql
+# use Mybatis connect mysql
