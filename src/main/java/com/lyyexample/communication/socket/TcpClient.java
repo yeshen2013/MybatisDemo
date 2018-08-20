@@ -51,19 +51,6 @@ public class TcpClient {
         }
     }
 
-    public static void clientSend(String msg){
-        try{
-            if(socket == null){
-                socket = new Socket(host,port);
-            }
-            InputStream inputStream = socket.getInputStream();
-            byte[] receive = new byte[100];
-            int read = inputStream.read(receive);
-            System.out.println("客服端收到消息："+receive.toString());
-        }catch (IOException e){
-            System.out.println(e.getMessage());
-        }
-    }
 
     public static void main(String[] args){
         try {

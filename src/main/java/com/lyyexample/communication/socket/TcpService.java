@@ -1,8 +1,6 @@
 package com.lyyexample.communication.socket;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -13,19 +11,6 @@ import java.util.Scanner;
 public class TcpService {
 
     private static ServerSocket serverSocket;
-    public static void serviceReceive(String responseMsg){
-        try {
-            if(serverSocket == null){
-                serverSocket = new ServerSocket(10001);
-            }
-            Socket accept = serverSocket.accept();
-            OutputStream outputStream = accept.getOutputStream();
-            outputStream.write(responseMsg.getBytes());
-            outputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void main(String[] args){
         try {
@@ -34,20 +19,24 @@ public class TcpService {
                 serverSocket.setSoTimeout(60000);
             }
             System.out.println("服务器开始监听！");
+            Socket accept = serverSocket.accept();
             while(true){
-                Socket accept = serverSocket.accept();
-                InputStream inputStream = accept.getInputStream();
-                byte[] receive = new byte[100];
-                inputStream.read(receive);
-//                inputStream.close();
-                System.out.println("服务端收到消息："+new String(receive));
-                OutputStream outputStream = accept.getOutputStream();
-                String response = "服务器已收到！";
-                outputStream.write(response.getBytes());
-                outputStream.flush();
-//                outputStream.close();
+                BufferedInputStream bufferedInputStream = new BufferedInputStream(accept.getInputStream());
+                if(bufferedInputStream.available()>0){
+                    byte[] receive = new byte[1024];
+                    bufferedInputStream.read(receive);
+                    System.out.println("服务端收到消息："+new String(receive));
+                    BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(accept.getOutputStream());
+                    String response = "服务器已收到！";
+                    bufferedOutputStream.write(response.getBytes());
+                    bufferedOutputStream.flush();
+                } else {
+                    Thread.sleep(50);
+                }
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
