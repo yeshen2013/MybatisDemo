@@ -3,7 +3,6 @@ package com.lyyexample.communication.socket;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
  * Created by liuyangyang on 2018/8/19.

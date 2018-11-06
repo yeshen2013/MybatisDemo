@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by liuyangyang on 2018/8/18.
@@ -28,5 +28,11 @@ public class HttpClient {
     public void post(String url,JSONObject request){
         User user = restTemplate.postForObject(url,request, User.class);
     }
+
+
+
+
+
+
 
 }
