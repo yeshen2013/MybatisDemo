@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class FixJog {
 
-    @Scheduled(fixedDelay = 20000)
+    @Scheduled(cron = "0 0/10 12-14 * * ?")
     private void job(){
         log.info("开始定时任务！");
         for(int i=0;i<20;i++){
-            new Thread(new DemoThread()).start();
+            new Thread(new DemoThread(i)).start();
         }
         log.info("定时任务结束");
     }

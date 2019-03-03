@@ -7,11 +7,17 @@ import com.lyyexample.service.impl.ThreadService;
  */
 public class DemoThread implements Runnable {
 
+    private int taskNum;
+
+    public DemoThread(int taskNum){
+        this.taskNum = taskNum;
+    }
+
     @Override
     public void run() {
         try {
-//            ThreadService.commonParam();
-            ThreadService.lockDemo();
+            ThreadService.commonParam();
+//            ThreadService.lockDemo();
         } catch (Exception e) {
             e.printStackTrace();
         }
