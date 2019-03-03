@@ -3,10 +3,12 @@ package com.lyyexample.Filter;
 
 import com.lyyexample.interceptor.LoginInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import java.io.IOException;
  */
 @Slf4j
 @Configuration
+@Order(1)
 public class MyFilter implements Filter{
 
     @Override
@@ -28,7 +31,7 @@ public class MyFilter implements Filter{
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        log.info("进入filter");
+        log.info("进入filter1");
         if(servletRequest instanceof HttpServletRequest && servletResponse instanceof HttpServletResponse){
             HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
             HttpServletResponse httpServletResponse = (HttpServletResponse)servletResponse;
@@ -41,12 +44,15 @@ public class MyFilter implements Filter{
             String remoteHost = httpServletRequest.getRemoteHost();
             int remotePort = httpServletRequest.getRemotePort();
             log.info("请求"+method+","+contextPath+","+requestURI+","+remoteAddr+","+remoteHost);
-            if(requestURI.contains("login")){
-                httpServletResponse.sendRedirect("login.html");
-            } else {
+            if(requestURI.contains("login") || requestURI.contains("registe")
+                    || (session != null && StringUtils.isNotBlank(session.getAttribute("userId").toString()))){
+                //登陆、注册，已登陆都不过滤
                 filterChain.doFilter(servletRequest,servletResponse);
             }
-
+            //检查登陆状态
+            if(session == null || StringUtils.isBlank(session.getAttribute("userId").toString())){
+                httpServletResponse.sendRedirect("login.html");
+            }
         }
     }
 

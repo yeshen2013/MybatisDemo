@@ -1,5 +1,10 @@
 package com.lyyexample.entry;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 import java.util.Date;
 
 /**
@@ -8,7 +13,9 @@ import java.util.Date;
 public class User {
 
     private int id;
+    @NotBlank
     private String name;
+    @NotBlank
     private String passWord;
     private Date createTime;
     private Date updateTime;

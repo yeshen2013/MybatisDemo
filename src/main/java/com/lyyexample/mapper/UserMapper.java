@@ -24,4 +24,6 @@ public interface UserMapper {
     boolean deleteById(@Param("id") int id);
 
     boolean deleteByName(@Param("name") String name);
+
+    User login(@Param("name") String name, @Param("passWord") String passWord);
 }
