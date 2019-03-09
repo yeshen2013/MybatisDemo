@@ -7,6 +7,7 @@ import org.springframework.core.annotation.Order;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -31,8 +32,13 @@ public class OtherFilter implements Filter{
             String method = httpServletRequest.getMethod();
             String requestURI = httpServletRequest.getRequestURI();
             String parameter = httpServletRequest.getParameterMap().toString();
+            HttpSession session = httpServletRequest.getSession();
             log.info("请求地址为："+ requestURI+",请求方法为："+ method+",请求参数为："+ parameter);
-            filterChain.doFilter(servletRequest, servletResponse);
+            if(requestURI.contains("publish")){
+                //已登陆不过滤
+                filterChain.doFilter(servletRequest,servletResponse);
+                return;
+            }
         }
     }
 

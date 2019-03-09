@@ -44,14 +44,16 @@ public class MyFilter implements Filter{
             String remoteHost = httpServletRequest.getRemoteHost();
             int remotePort = httpServletRequest.getRemotePort();
             log.info("请求"+method+","+contextPath+","+requestURI+","+remoteAddr+","+remoteHost);
-            if(requestURI.contains("login") || requestURI.contains("registe")
-                    || (session != null && StringUtils.isNotBlank(session.getAttribute("userId").toString()))){
+            if(session != null && session.getAttribute("userId") != null){
                 //登陆、注册，已登陆都不过滤
                 filterChain.doFilter(servletRequest,servletResponse);
-            }
-            //检查登陆状态
-            if(session == null || StringUtils.isBlank(session.getAttribute("userId").toString())){
+                return;
+            } else if(requestURI.contains("login") || requestURI.contains("registe") || requestURI.contains("publish")){
+                filterChain.doFilter(servletRequest,servletResponse);
+                return;
+            } else {
                 httpServletResponse.sendRedirect("login.html");
+                return;
             }
         }
     }

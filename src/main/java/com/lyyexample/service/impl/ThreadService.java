@@ -20,6 +20,24 @@ public class ThreadService {
 
     private static int lockNum;
 
+    private static Integer j = 0;
+
+    public static void add() throws InterruptedException {
+        synchronized (j){
+            ++j;
+            System.out.println("加1："+j);
+            Thread.sleep(1000);
+        }
+    }
+
+    public static void reduce() throws InterruptedException {
+        synchronized (j){
+            --j;
+            System.out.println("减1："+j);
+            Thread.sleep(1000);
+        }
+    }
+
     public static String commonParam() throws InterruptedException {
         synchronized (name){
             ++num;

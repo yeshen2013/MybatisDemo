@@ -1,5 +1,6 @@
 package com.lyyexample;
 
+import com.lyyexample.Listener.MyListener;
 import com.lyyexample.Listener.PreparedListener;
 import com.lyyexample.Listener.ReadyListener;
 import org.mybatis.spring.annotation.MapperScan;
@@ -7,7 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -18,8 +21,8 @@ public class MybatisDemoApplication {
 	public static void main(String[] args) {
 //		SpringApplication.run(MybatisDemoApplication.class, args);
 		SpringApplication app = new SpringApplication(MybatisDemoApplication.class);
-		app.addListeners(new PreparedListener());
-		app.addListeners(new ReadyListener());
+//		app.addListeners(new PreparedListener());
+//		app.addListeners(new ReadyListener());
 		app.run(args);
 	}
 
@@ -29,5 +32,10 @@ public class MybatisDemoApplication {
 		restTemplateBuilder.setConnectTimeout(60000);
 		restTemplateBuilder.setReadTimeout(60000);
 		return restTemplateBuilder.build();
+	}
+
+	@Bean(name = "threadPoolTaskExecutor")
+	public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
+		return new ThreadPoolTaskExecutor();
 	}
 }

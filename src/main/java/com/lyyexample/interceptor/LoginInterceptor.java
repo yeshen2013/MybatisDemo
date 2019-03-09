@@ -2,8 +2,12 @@ package com.lyyexample.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lyyexample.common.ResponseModel;
+import com.lyyexample.entry.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,13 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by liuyangyang on 2018/6/19.
  */
+@Configuration
+@Order(3)
 public class LoginInterceptor implements HandlerInterceptor {
     private static Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         logger.info("请求进入拦截器！"+httpServletRequest.getMethod());
-        if(o instanceof ResponseModel){
+        if(o instanceof User){
             ResponseModel responseModel = (ResponseModel)o;
             responseModel.setRetMsg("请求preHandle");
             logger.info(JSONObject.toJSONString(o));

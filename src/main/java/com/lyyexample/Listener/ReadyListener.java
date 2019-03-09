@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Created by liuyangyang on 2018/11/6.
  */
 @Slf4j
-//@Component
+@Component
 public class ReadyListener implements ApplicationListener<ApplicationReadyEvent> {
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
